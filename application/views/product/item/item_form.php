@@ -32,16 +32,17 @@
                             <input type="text" name="product_name" value="<?=$row->name?>" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label>Category*</label>
+                            <label>Kategori*</label>
                             <select name="category" class="form-control">
                                 <option value="">- Pilih -</option>
                                 <?php foreach($category->result() as $key => $data) { ?>
-                                    <option value="<?=$data->category_id?>"><?=$data->name?></option>
+                                    <option value="<?=$data->category_id?>" <?=$data->category_id == $row->category_id ? "selected" : null?>><?=$data->name?></option>
+                                    
                                 <?php }?>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Unit*</label>
+                            <label>Satuan*</label>
                             <?php echo form_dropdown('unit', $unit, $selectedunit, 
                             ['class' => 'form-control', 'required' => 'required']) ?>
                         </div>
