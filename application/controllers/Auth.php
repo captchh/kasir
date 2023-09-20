@@ -15,8 +15,8 @@ class Auth extends CI_Controller {
 			$this->load->model('user_m');
 			$query = $this->user_m->login($post);
 			if ($query->num_rows() > 0) {
-				$row = $query->row();
 				// echo $row->username;
+				$row = $query->row();
 				$params = array(
 					'userid' => $row->user_id,
 					'role' => $row->role 
@@ -41,4 +41,5 @@ class Auth extends CI_Controller {
 		$this->session->unset_userdata($params);
 		redirect('auth/login');
 	}
+
 }

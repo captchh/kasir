@@ -10,4 +10,5 @@
 
 <section class="content">
 	Dashboard page
+
 </section>

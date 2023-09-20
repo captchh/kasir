@@ -9,16 +9,9 @@ Class Fungsi {
     }
 
     function user_login() {
-
-        // $session = array(
-        //     'username' => $row->username
-        // );
-        // $this->session->set_userdata($session);
-        // return $session;
-
         $this->ci->load->model('user_m');
         $user_id = $this->ci->session->userdata('userid');
-        $user_data = $this->ci->user_m->get()->row();
+        $user_data = $this->ci->user_m->get($user_id)->row();
         return $user_data;
     }
 }

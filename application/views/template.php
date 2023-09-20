@@ -7,6 +7,7 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<?=base_url()?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 	<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/AdminLTE.min.css">
 	<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/skins/_all-skins.min.css">
 	<!--[if lt IE 9]>
@@ -22,7 +23,7 @@
 		<header class="main-header">
 			<a href="<?=site_url('dashboard')?>" class="logo">
 				<span class="logo-mini"><i class="fab fa-opencart"></i></span>
-				<span class="logo-lg">Kasir.com</span>
+				<span class="logo-lg">Kasir</span>
 			</a>
 			<nav class="navbar navbar-static-top">
 				<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -67,7 +68,8 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<img src="<?=base_url()?>assets/dist/img/user2-160x160.jpg" class="user-image">
 								<span class="hidden-xs">	
-									<?= $this->fungsi->user_login()->username ?>
+									<?=$this->fungsi->user_login()->username ?>
+									
 								</span>
 							</a>
 							<ul class="dropdown-menu">
@@ -115,26 +117,26 @@
 				<!-- sidebar menu -->
 				<ul class="sidebar-menu" data-widget="tree">
 					<li class="header">MAIN NAVIGATION</li>
-					<li>
+					<li <?=$this->uri->segment(1) == 'dashboard' || $this->uri->segment(1) == '' ? 'class="active"' : null?>>
 						<a href="<?=site_url('dashboard')?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
 					</li>
-					<li>
-						<a href=""><i class="fa fa-truck"></i> <span>Suppliers</span></a>
+					<li <?=$this->uri->segment(1) == 'supplier' ? 'class="active"' : null?>>
+						<a href="<?=site_url('supplier')?>"><i class="fa fa-truck"></i> <span>Suppliers</span></a>
 					</li>
-					<li>
-						<a href="">
+					<li <?=$this->uri->segment(1) == 'customer' ? 'class="active"' : null?>>
+						<a href="<?=site_url('customer')?>">
 							<i class="fa fa-users"></i> <span>Customers</span>
 						</a>
 					</li>
-					<li class="treeview">
+					<li class="treeview <?=$this->uri->segment(1) == 'category' || $this->uri->segment(1) == 'unit' || $this->uri->segment(1) == 'item' ? 'active' : null?>" >
 						<a href="#">
 							<i class="fa fa-archive"></i> <span>Products</span>
 							<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a href="#"><i class="fa fa-circle-o"></i> Categories</a></li>
-							<li><a href="#"><i class="fa fa-circle-o"></i> Units</a></li>
-							<li><a href="#"><i class="fa fa-circle-o"></i> Items</a></li>
+							<li <?=$this->uri->segment(1) == 'category' ? 'class="active"' : null?>><a href="<?=site_url('category')?>"><i class="fa fa-circle-o"></i> Categories</a></li>
+							<li <?=$this->uri->segment(1) == 'unit' ? 'class="active"' : null?>><a href="<?=site_url('unit')?>"><i class="fa fa-circle-o"></i> Units</a></li>
+							<li <?=$this->uri->segment(1) == 'item' ? 'class="active"' : null?>><a href="<?=site_url('item')?>"><i class="fa fa-circle-o"></i> Items</a></li>
 						</ul>
 					</li>
 					<li class="treeview">
@@ -158,9 +160,9 @@
 							<li><a href="#"><i class="fa fa-circle-o"></i> Stocks</a></li>
 						</ul>
 					</li>
-					<?php if($this->session->userdata('role') == 'admin') { ?>
+					<?php if($this->fungsi->user_login()->role == 'admin') { ?>
 					<li class="header">SETTINGS</li>
-					<li><a href="<?=site_url('user')?>"><i class="fa fa-user"></i> <span>Users</span></a></li>
+					<li <?=$this->uri->segment(1) == 'user' ? 'class="active"' : null?>><a href="<?=site_url('user')?>"><i class="fa fa-user"></i> <span>Users</span></a></li>
 					<?php } ?>
 				</ul>
 			</section>
@@ -185,5 +187,15 @@
 	<script src="<?=base_url()?>assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="<?=base_url()?>assets/dist/js/adminlte.min.js"></script>
 
+	<script src="<?=base_url()?>assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+	<script src="<?=base_url()?>assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+	
+	<script>
+		$(document).ready(function(){
+			$('#table1').DataTable()
+		})
+	</script>
 </body>
 </html>
+
+<!-- ||  :: -->
