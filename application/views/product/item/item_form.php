@@ -9,6 +9,7 @@
 </section>
 
 <section class="content">
+    <?php $this->view('messages')?>
 	<div class="box">
 		<div class="box-header">
 			<h3 class="box-title"><?=ucfirst($page)?> Item</h3>
@@ -33,7 +34,7 @@
                         </div>
                         <div class="form-group">
                             <label>Kategori*</label>
-                            <select name="category" class="form-control">
+                            <select name="category" class="form-control" required>
                                 <option value="">- Pilih -</option>
                                 <?php foreach($category->result() as $key => $data) { ?>
                                     <option value="<?=$data->category_id?>" <?=$data->category_id == $row->category_id ? "selected" : null?>><?=$data->name?></option>

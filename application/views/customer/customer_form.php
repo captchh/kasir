@@ -19,13 +19,15 @@
 			</div>
 		</div>
 		<div class="box-body">
+        <?php $this->view('messages')?>
 			<div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <form action="<?=site_url('customer/process')?>" method="post">
                         <div class="form-group">
                             <label>Customer Name*</label>
                             <input type="hidden" name="id" value="<?=$row->customer_id?>">
-                            <input type="text" name="customer_name" value="<?=$row->name?>" class="form-control" required>
+                            <input type="text" name="customer_name" value="<?=$row->name?>" class="form-control" >
+                            
                         </div>
                         <div class="form-group">
                             <label>Gender*</label>

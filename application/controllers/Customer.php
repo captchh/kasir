@@ -8,6 +8,7 @@ class Customer extends CI_Controller {
 		parent::__construct();
 		check_not_login();
 		$this->load->model('customer_m');
+
 	}
 
 	public function index()
@@ -29,6 +30,7 @@ class Customer extends CI_Controller {
 			'row' => $customer
 		);
 		$this->template->load('template','customer/customer_form', $data);
+
 	}
 
 	public function edit($id)
@@ -51,7 +53,12 @@ class Customer extends CI_Controller {
 	{
 		$post = $this->input->post(null, TRUE);
 		if(isset($_POST['add'])) {
-			$this->customer_m->add($post);
+			if($this->customer_m->check_customer($post['customer_name'])->num_rows() > 0) {
+				$this->session->set_flashdata('error', " $post[customer_name] sudah dipakai");
+				redirect('customer/add');
+			} else {
+				$this->customer_m->add($post);
+			}
 		}else if(isset($_POST['edit'])) {
 			$this->customer_m->edit($post);
 			}

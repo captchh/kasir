@@ -34,11 +34,16 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $no =1;
+					<!-- <?php $no =1;
 					foreach($row->result() as $key => $data) { ?>
 						<tr style="font-size: 15px;">
 							<td style="width:5%;"><?=$no++?>.</td>
-							<td><?=$data->barcode?></td>
+							<td>
+								<?=$data->barcode?><br>
+								<a href="<?=site_url('item/barcode_qrcode/'.$data->item_id)?>" class="btn btn-default btn-xs">
+									Generat  <i class="fa fa-qrcode"></i>
+								</a>
+							</td>
 							<td><?=$data->name?></td>
 							<td><?=$data->category_name?></td>
 							<td><?=$data->unit_name?></td>
@@ -53,9 +58,19 @@
 								</a>
 							</td>
 						</tr>
-					<?php } ?>
+					<?php } ?> -->
 				</tbody>
 			</table>
 		</div>
 	</div>
 </section>
+
+<script>
+	$(document).ready(function(){
+		$('#table1').DataTable({
+			"processing": true,
+			"serverSide": true,
+			"ajax": "<?=site_url('item/get_ajax')?>"
+		})
+	})
+</script>

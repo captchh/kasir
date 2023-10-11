@@ -25,7 +25,7 @@
                     <form action="" method="post">
                         <div class="form-group <?=form_error('fullname') ? 'has-error' : null?>">
                             <label>Name*</label>
-                            <input type="text" name="fullname" value="<?=set_value('fullname')?>" class="form-control">
+                            <input type="text" name="fullname" value="<?=set_value('fullname')?>" class="form-control" >
                             <span class="help-block"><?=form_error('fullname')?></span>
                         </div>
                         <div class="form-group <?=form_error('username') ? 'has-error' : null?>">

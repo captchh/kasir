@@ -36,6 +36,16 @@ class Customer_m extends CI_Model {
         $this->db->update('customer', $params);
     }
 
+    function check_customer($code, $id = null) {
+        $this->db->from('customer');
+        $this->db->where('name', $code);
+        if($id != null) {
+            $this->db->where('customer_id !=', $id);
+        }
+        $query = $this->db->get();
+        return $query;
+    }
+
     public function del($id)
 	{
 		$this->db->where('customer_id', $id);

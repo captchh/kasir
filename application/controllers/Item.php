@@ -10,6 +10,36 @@ class Item extends CI_Controller {
 		$this->load->model(['item_m', 'category_m', 'unit_m']);
 	}
 
+	function get_ajax() {
+        $list = $this->item_m->get_datatables();
+        $data = array();
+        $no = @$_POST['start'];
+        foreach ($list as $item) {
+            $no++;
+            $row = array();
+            $row[] = $no.".";
+            $row[] = $item->barcode.'<br><a href="'.site_url('item/barcode_qrcode/'.$item->item_id).'" class="btn btn-default btn-xs">Generate <i class="fa fa-barcode"></i></a>';
+            $row[] = $item->name;
+            $row[] = $item->category_name;
+            $row[] = $item->unit_name;
+            $row[] = indo_currency($item->price);
+            $row[] = $item->stock;
+            // $row[] = $item->image != null ? '<img src="'.base_url('uploads/product/'.$item->image).'" class="img" style="width:100px">' : null;
+            // add html for action
+            $row[] = '<a href="'.site_url('item/edit/'.$item->item_id).'" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Update</a>
+                    <a href="'.site_url('item/del/'.$item->item_id).'" onclick="return confirm(\'Yakin hapus data?\')"  class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</a>';
+            $data[] = $row;
+        }
+        $output = array(
+                    "draw" => @$_POST['draw'],
+                    "recordsTotal" => $this->item_m->count_all(),
+                    "recordsFiltered" => $this->item_m->count_filtered(),
+                    "data" => $data,
+                );
+        // output to json format
+        echo json_encode($output);
+    }
+
 	public function index()
 	{
 		$data['row'] = $this->item_m->get();
@@ -72,10 +102,20 @@ class Item extends CI_Controller {
 	{
 		$post = $this->input->post(null, TRUE);
 		if(isset($_POST['add'])) {
-			$this->item_m->add($post);
-		}else if(isset($_POST['edit'])) {
-			$this->item_m->edit($post);
+			if($this->item_m->check_barcode($post['barcode'])->num_rows() > 0) {
+				$this->session->set_flashdata('error', "Barcode $post[barcode] sudah dipakai");
+				redirect('item/add');
+			} else {
+				$this->item_m->add($post);
 			}
+		}else if(isset($_POST['edit'])) {
+			if($this->item_m->check_barcode($post['barcode'], $post['id'])->num_rows() > 0) {
+				$this->session->set_flashdata('error', "Barcode $post[barcode] sudah dipakai");
+				redirect('item/edit/'.$post['id']);
+			} else {
+				$this->item_m->edit($post);
+			}
+		}
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('success', 'Data berhasil disimpan');
 		} 
@@ -90,5 +130,16 @@ class Item extends CI_Controller {
 			$this->session->set_flashdata('success', 'Data berhasil dihapus');
 		}
 		redirect('item');
+	}
+
+	function barcode_qrcode($id){
+		$data['row'] = $this->item_m->get($id)->row();
+		$this->template->load('template','product/item/barcode_qrcode', $data);
+	}
+
+	function barcode_print($id) {
+		$data['row'] = $this->item_m->get($id)->row();
+		$html = $this->load->view('product/item/barcode_print', $data, true);
+		$this->fungsi->PdfGenerator($html, 'barcode-'.$data['row']->barcode, 'A4', 'landscape');
 	}
 }
