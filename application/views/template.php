@@ -145,9 +145,9 @@
 							<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a href="#"><i class="fa fa-circle-o"></i> Sales</a></li>
-							<li><a href="#"><i class="fa fa-circle-o"></i> Stock In</a></li>
-							<li><a href="#"><i class="fa fa-circle-o"></i> Stock Out</a></li>
+							<li class="active"><a href="<?=site_url('/sale')?>"><i class="fa fa-circle-o"></i> Sales</a></li>
+							<li><a href="<?=site_url('/stock/in')?>" ><i class="fa fa-circle-o"></i> Stock In</a></li>
+							<li><a href="<?=site_url('/stock/out')?>"><i class="fa fa-circle-o"></i> Stock Out</a></li>
 						</ul>
 					</li>
 					<li class="treeview">
